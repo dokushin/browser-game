@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <!-- スマホの画面幅に合わせる。ダブルタップで拡大されないようにする -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <title>ボールの気持ち</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <!-- ===== 画面上部：HP・スコア・怪しみ度 ===== -->
+    <header id="hud">
+      <div class="hud-row">
+        <div class="hp">
+          <span class="label">HP</span>
+          <div class="bar"><div id="hp-fill" class="fill"></div></div>
+          <span id="hp-text" class="num">100</span>
+        </div>
+        <div class="score">タッチ <b id="score">0</b></div>
+        <button id="btn-mute" class="icon-btn" aria-label="音を消す">🔊</button>
+      </div>
+      <div class="hud-row">
+        <div id="sus-box" class="sus">
+          <span class="label">審判の怪しみ度</span>
+          <div class="bar"><div id="sus-fill" class="fill"></div></div>
+          <span class="away-tag">よそ見中！</span>
+        </div>
+        <div class="level"><span id="level-name">練習試合</span> <span id="time">0:00</span></div>
+      </div>
+    </header>
+
+    <!-- ===== まんなか：ゲーム画面（ここをなぞってボールをずらす） ===== -->
+    <main id="stage">
+      <canvas id="game"></canvas>
+    </main>
+
+    <!-- ===== 画面下部：落ちる速さを変えるボタン（押している間だけ効く） ===== -->
+    <footer id="controls">
+      <button id="btn-float" class="hold-btn float">ふわっ<small>ゆっくり落ちる</small></button>
+      <button id="btn-drop" class="hold-btn drop">ストン<small>はやく落ちる</small></button>
+    </footer>
+
+    <!-- ===== タイトル画面 ===== -->
+    <section id="title-screen" class="overlay">
+      <div class="card">
+        <h1>🏐 ボールの気持ち</h1>
+        <p class="tagline">痛いのはイヤ。でも、ラリーはずっと続けたい。</p>
+
+        <h2>あそびかた</h2>
+        <ul class="howto">
+          <li>あなたは<b>バレーボール</b>。選手にさわられると HP が減ります</li>
+          <li><b>画面をなぞる</b>と、その方向へボールが少しずつずれます</li>
+          <li><b>ふわっ / ストン</b> を押している間は、落ちる速さが変わります</li>
+          <li>やさしい人にさわってもらうと HP が<b>回復</b></li>
+          <li>ずらしすぎると<b>審判にバレます</b>。よそ見のスキをねらおう</li>
+          <li>床に落ちる・HP が 0・審判にバレる と<b>ゲームオーバー</b></li>
+        </ul>
+
+        <h2>登場人物</h2>
+        <ul class="cast">
+          <li><span>😤</span>本気スパイクの先輩</li>
+          <li><span>😇</span>やさしいリベロ</li>
+          <li><span>🤗</span>話しかけてくる後輩</li>
+          <li><span>😎</span>サーブだけ強い人</li>
+          <li><span>😠</span>顔がこわい人（…さわられるまで、本当にこわいかはわからない）</li>
+          <li><span>🙂</span>ふつうの部員</li>
+        </ul>
+
+        <p class="best">自己ベスト：<b id="title-best">0</b> タッチ</p>
+        <button id="btn-start" class="primary">プレイする</button>
+        <p class="keys">パソコン：矢印キー / WASD でずらす・Z でふわっ・X でストン</p>
+      </div>
+    </section>
+
+    <!-- ===== ゲームオーバー画面 ===== -->
+    <section id="gameover-screen" class="overlay hidden">
+      <div class="card">
+        <h2 id="go-title" class="go-title"></h2>
+        <p id="go-sub" class="go-sub"></p>
+        <p class="go-score"><b id="go-score">0</b> タッチ</p>
+        <p id="go-best" class="go-best"></p>
+        <p id="go-level" class="go-level"></p>
+        <button id="btn-retry" class="primary">もう一回</button>
+        <button id="btn-title" class="secondary">タイトルへ</button>
+      </div>
+    </section>
+  </div>
+
+  <!-- 読みこむ順番が大事：設定 → 音 → 操作 → ルール → 描画 → 全体をつなぐ -->
+  <script src="js/config.js"></script>
+  <script src="js/sound.js"></script>
+  <script src="js/input.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/draw.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

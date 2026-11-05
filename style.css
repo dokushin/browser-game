@@ -1,0 +1,329 @@
+/* =====================================================
+   style.css : 見た目を決めるファイル
+   ===================================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background: #16213a;
+  color: #ffffff;
+  font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Noto Sans JP", "Yu Gothic UI", Meiryo, sans-serif;
+  overflow: hidden;            /* ゲーム中に画面がスクロールしないようにする */
+  overscroll-behavior: none;
+  /* 長押しで文字が選択されたり、メニューが出たりしないようにする */
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* 画面全体：上（HUD）・まんなか（ゲーム）・下（ボタン）の3段 */
+#app {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100dvh;             /* スマホのアドレスバーを考えた高さ */
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+/* ---------- 画面上部（HUD） ---------- */
+#hud {
+  padding: calc(6px + env(safe-area-inset-top)) 12px 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: #1d2a48;
+}
+
+.hud-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.label {
+  font-size: 12px;
+  color: #b8c4e0;
+  white-space: nowrap;
+}
+
+.bar {
+  flex: 1;
+  height: 12px;
+  background: #0d1426;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+  width: 0;
+  border-radius: 6px;
+  transition: width 0.15s;
+}
+
+.hp,
+.sus {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.num {
+  width: 2.2em;
+  text-align: right;
+  font-weight: bold;
+}
+
+.score {
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.score b {
+  font-size: 20px;
+  color: #ffe066;
+}
+
+.level {
+  font-size: 13px;
+  font-weight: bold;
+  white-space: nowrap;
+  color: #ffe066;
+}
+
+#time {
+  color: #b8c4e0;
+  font-weight: normal;
+}
+
+/* 審判がよそ見しているときだけ「よそ見中！」を表示 */
+.away-tag {
+  display: none;
+  font-size: 12px;
+  font-weight: bold;
+  color: #3ddc84;
+  white-space: nowrap;
+}
+
+.sus.away .away-tag {
+  display: inline;
+}
+
+.sus.away .bar {
+  box-shadow: 0 0 0 2px #3ddc84;
+}
+
+.icon-btn {
+  border: none;
+  background: transparent;
+  font-size: 20px;
+  padding: 0 2px;
+  cursor: pointer;
+}
+
+/* ---------- まんなか（ゲーム画面） ---------- */
+#stage {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+}
+
+#game {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;          /* なぞったときに画面がスクロールしないようにする */
+}
+
+/* ---------- 画面下部（ボタン） ---------- */
+#controls {
+  display: flex;
+  gap: 10px;
+  padding: 8px 12px calc(10px + env(safe-area-inset-bottom));
+  background: #1d2a48;
+}
+
+.hold-btn {
+  flex: 1;
+  height: 62px;
+  border: none;
+  border-radius: 16px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  touch-action: none;
+  cursor: pointer;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.35);
+  font-family: inherit;
+}
+
+.hold-btn small {
+  font-size: 11px;
+  font-weight: normal;
+  opacity: 0.85;
+}
+
+.hold-btn.float {
+  background: #4aa3df;
+}
+
+.hold-btn.drop {
+  background: #e67e22;
+}
+
+/* 押している間はへこんで見える */
+.hold-btn.pressed {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.35);
+  filter: brightness(1.15);
+}
+
+/* ---------- タイトル画面・ゲームオーバー画面 ---------- */
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  padding: 16px;
+  background: rgba(10, 16, 32, 0.82);
+  overflow-y: auto;
+  z-index: 10;
+}
+
+.overlay.hidden {
+  display: none;
+}
+
+.card {
+  margin: auto;                 /* 上下左右のまんなかに置く */
+  width: 100%;
+  max-width: 420px;
+  background: #ffffff;
+  color: #1f2430;
+  border-radius: 18px;
+  padding: 20px 18px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.card h1 {
+  margin: 0 0 4px;
+  font-size: 28px;
+}
+
+.card h2 {
+  margin: 16px 0 6px;
+  font-size: 16px;
+  color: #2b6cd4;
+}
+
+.tagline {
+  margin: 0;
+  font-size: 14px;
+  color: #555;
+}
+
+.howto,
+.cast {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-align: left;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.howto li::before {
+  content: "🏐 ";
+}
+
+.cast li span {
+  display: inline-block;
+  width: 1.8em;
+}
+
+.best {
+  margin: 16px 0 8px;
+}
+
+.keys {
+  margin: 10px 0 0;
+  font-size: 12px;
+  color: #777;
+}
+
+.primary,
+.secondary {
+  display: block;
+  width: 100%;
+  border: none;
+  border-radius: 14px;
+  padding: 14px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  font-family: inherit;
+  touch-action: manipulation;
+}
+
+.primary {
+  background: #ff7a1a;
+  color: #ffffff;
+  box-shadow: 0 4px 0 #c45500;
+}
+
+.primary:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #c45500;
+}
+
+.secondary {
+  margin-top: 10px;
+  background: #e8ecf4;
+  color: #1f2430;
+}
+
+.card .go-title {
+  margin: 0;
+  font-size: 26px;
+  color: #c0392b;
+}
+
+.go-sub {
+  margin: 6px 0 12px;
+  font-size: 15px;
+}
+
+.go-score {
+  margin: 0;
+  font-size: 16px;
+}
+
+.go-score b {
+  font-size: 44px;
+  color: #ff7a1a;
+}
+
+.go-best {
+  margin: 4px 0;
+  font-weight: bold;
+}
+
+.go-level {
+  margin: 0 0 16px;
+  font-size: 13px;
+  color: #666;
+}
